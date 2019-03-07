@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <iomanip>
 #include <stdlib.h>
+#include <conio.h>
 using namespace std;
 
 void InitGamePlace();
@@ -11,6 +12,7 @@ void ShowGamePlace();
 void MixGamePlace();
 bool GameWin();
 void GamePlay();
+int steps;
 
 const int N = 4;
 
@@ -19,6 +21,32 @@ int game_place[N][N];
 int main()
 {
 	setlocale(LC_ALL, "rus");
+	cout << "Пятнашки V1.0" << endl << endl;
+	cout << "Меню: " << endl << "1. Играть" << endl << "2. Правила игры" << endl << "3. Выход" << endl;
+	Retry:
+	char change = _getch();
+	switch (change)
+	{
+	case '1':
+	{
+		break;
+	}
+	case '2':
+	{
+		cout << "Пятнашки представляют из себя набор, в который входит квадратная коробка, сторона которой равна 4 сторонам костяшек, то есть 4х4." << endl << "Внутри этой коробки 15 квадратных костяшек. В коробке остается 1 свободное место под одну костяшку." << endl << "Цель игры – упорядочивание костяшек по порядку. Концом игры считается, когда все костяшки от 1 до 15 стоят друг за другом." << endl;
+		system("pause");
+		break;
+	}
+	case '3':
+	{
+		return 0;
+	}
+	default: 
+	{
+		cout << "Некорректный выбор в меню! Попробуйте снова!" << endl;
+		goto Retry;
+	}
+	}
 
 	InitGamePlace();
 
@@ -28,10 +56,14 @@ int main()
 	MixGamePlace();
 
 	ShowGamePlace();
-	system("pause");
-	cout << "Нажмите любую клавишу" << endl;
 
+	steps = 1;
 	GamePlay();
+
+	if (GameWin() == true)
+	{
+		cout << "Поздравляем! Вы выиграли!" << endl;
+	}
 }
 
 void InitGamePlace()
@@ -85,6 +117,7 @@ void ShowGamePlace()
 		}
 		cout << endl;
 	}
+	cout << endl << endl << "Шаги: " << steps << endl;
 }
 
 bool GameWin()
@@ -117,7 +150,7 @@ void GamePlay()
 	char move; 
 	do
 	{
-		cin >> move;
+		move = _getch();
 		switch (move)
 		{
 		case 'w':
@@ -199,5 +232,6 @@ void GamePlay()
 		default:
 			cout << "Неправильный ввод" << endl;
 		}
+		steps++;
 	} while (GameWin() == false);
 }
